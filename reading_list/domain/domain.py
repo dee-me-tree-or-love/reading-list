@@ -1,35 +1,56 @@
-class EntryStatus:
-    PENDING = 'pending'
-    DOWNLOADED = 'downloaded'
-    READ = 'read'
+from typing import TypedDict
 
 
 class ReadingEntry:
-    DEFAULT_STATUS = EntryStatus.PENDING
-
-    def __init__(self, title, url, status=None):
+    def __init__(self, title: str, link: str):
         self.title = title
-        self.url = url
-        self.status = self.DEFAULT_STATUS if status == None else status
+        self.link = link
+
+
+class ReadingEntryStruct(TypedDict):
+    title: str
+    link: str
 
 
 class ReadingEntryFactory:
 
     @staticmethod
-    def make_new_entry(title=None, url=None):
-        if title == None or url == None:
-            raise ValueError("title and url must be provided")
-        return ReadingEntry(title, url)
+    def make_new_entry(title: str, link: str = ""):
+        """Examples
+            Entry with title and link
+            >>> result = ReadingEntryFactory.make_new_entry('foo', 'bar')
+            >>> f't: {result.title}, l: {result.link}'
+            't: foo, l: bar'
+
+            Entry without link
+            >>> result = ReadingEntryFactory.make_new_entry('foo')
+            >>> f't: {result.title}, l: {result.link}'
+            't: foo, l: '
+
+            Entry without title fails
+            >>> result = ReadingEntryFactory.make_new_entry()
+            Traceback (most recent call last):
+              ...
+            TypeError: ...
+
+        """
+        return ReadingEntry(title, link)
 
     @staticmethod
-    def map_to_entry_struct(entry):
-        return {
-            'title': entry.title,
-            'url': entry.url,
-            'status': entry.status
-        }
+    def entry_to_struct(entry: ReadingEntry) -> ReadingEntryStruct:
+        """Examples:
+            >>> reading_entry = ReadingEntry('foo', 'bar')
+            >>> ReadingEntryFactory.entry_to_struct(reading_entry)
+            {'title': 'foo', 'link': 'bar'}
+        """
+        return {'title': entry.title, 'link': entry.link}
 
-    @staticmethod
-    def map_struct_to_entry(entry_struct):
-        return ReadingEntry(
-            entry_struct['title'], entry_struct['url'], entry_struct['status'])
+    @classmethod
+    def struct_to_entry(cls, entry_struct: ReadingEntryStruct) -> ReadingEntry:
+        """Examples:
+            >>> reading_entry_struct = {'title': 'foo', 'link': 'bar'}
+            >>> result = ReadingEntryFactory.struct_to_entry(reading_entry_struct)
+            >>> f't: {result.title}, l: {result.link}'
+            't: foo, l: bar'
+        """
+        return cls.make_new_entry(entry_struct['title'], entry_struct['link'])
