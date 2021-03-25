@@ -1,5 +1,4 @@
 from reading_list.application.results import AResult, SuccessResult, ErrorResult
-from reading_list.domain.entities import ReadingEntry
 
 
 class BaseHandler:
@@ -10,7 +9,7 @@ class BaseHandler:
     def handle(self, event) -> AResult:
         """Examples:
             >>> from unittest.mock import MagicMock, patch
-            
+
             1. Successful execution of specific handling returns its result
             >>> with patch.object(BaseHandler, '_own_handle') as mock_own_handle:
             ...     expected_result = SuccessResult()
