@@ -1,10 +1,10 @@
-class BaseResult:
+class AResult:
     STATUS = 'base'
 
 
-class SuccessResult(BaseResult):
+class SuccessResult(AResult):
     STATUS = 'success'
 
 
-class ErrorResult(BaseResult):
+class ErrorResult(AResult):
     STATUS = 'error'
