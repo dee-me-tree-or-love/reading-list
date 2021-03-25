@@ -1,10 +1,11 @@
 from typing import TypedDict
+from dataclasses import dataclass
 
 
+@dataclass
 class ReadingEntry:
-    def __init__(self, title: str, link: str):
-        self.title = title
-        self.link = link
+    title: str
+    link: str
 
 
 class ReadingEntryStruct(TypedDict):

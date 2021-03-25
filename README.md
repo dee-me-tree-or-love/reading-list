@@ -1,4 +1,16 @@
 <!-- markdownlint-disable-next-line no-trailing-punctuation -->
 # Reading-List: CLI :books:
 
-Reading list application to manage various links to read.
+Manage your links to read using this CLI tool!  
+
+> Disclaimer: it's a work in progress, but do stay tuned ;)
+
+## Usage
+
+<!-- To be defined -->
+
+## Development
+
+### Pre-Requisites
+
+- Python 3.7+
