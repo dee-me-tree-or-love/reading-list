@@ -1,3 +1,4 @@
 autopep8==1.5.6
 mypy==0.812
 pytest==6.2.2
+pylint==2.7.2
