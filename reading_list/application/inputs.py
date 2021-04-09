@@ -1,7 +1,7 @@
-from typing import Optional, Dict
+from typing import Optional, Dict, Any
 from dataclasses import dataclass, field
 
 
 @dataclass
-class DataInput:
-    data: Dict = field(default_factory=dict)
+class DataInputEvent:
+    data: Dict[str, Any] = field(default_factory=dict)

@@ -16,7 +16,7 @@ class ReadingEntryStruct(TypedDict):
 class ReadingEntryFactory:
 
     @staticmethod
-    def make_new_entry(title: str, link: str = ""):
+    def make_new_entry(title: str, link: str = "") -> ReadingEntry:
         """Examples
             Entry with title and link
             >>> result = ReadingEntryFactory.make_new_entry('foo', 'bar')

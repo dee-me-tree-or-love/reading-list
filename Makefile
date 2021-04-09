@@ -8,3 +8,5 @@ test:
 	pytest reading_list/ --doctest-modules -vvv
 lint:
 	pylint reading_list/
+mypy:
+	mypy reading_list/ --ignore-missing-imports --strict

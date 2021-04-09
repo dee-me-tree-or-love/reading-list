@@ -1,3 +1,4 @@
+from reading_list.application.inputs import DataInputEvent
 from reading_list.application.results import AResult, SuccessResult, ErrorResult
 from reading_list.misc.dependency_injection import ADependencyInjectionContainer
 
@@ -6,10 +7,10 @@ class BaseHandler:
     def __init__(self, di_container: ADependencyInjectionContainer):
         self._di = di_container
 
-    def _own_handle(self, event) -> AResult:
+    def _own_handle(self, event: DataInputEvent) -> AResult:
         raise NotImplementedError()
 
-    def handle(self, event) -> AResult:
+    def handle(self, event: DataInputEvent) -> AResult:
         """Examples:
             >>> from unittest.mock import MagicMock, patch
             >>> def get_base_handler():
@@ -38,7 +39,7 @@ class BaseHandler:
 
 
 class AddEntryCommandHandler(BaseHandler):
-    def _own_handle(self, event) -> AResult:
+    def _own_handle(self, event: DataInputEvent) -> AResult:
         """Examples:
             >>> from unittest.mock import MagicMock, patch
             >>> mock_factory = MagicMock()
