@@ -44,7 +44,7 @@ class AddEntryCommandHandler(BaseHandler):
             >>> from unittest.mock import MagicMock, patch
             >>> mock_factory = MagicMock()
             >>> mock_persistence = MagicMock()
-            >>> di = dict(reading_entry_factory=mock_factory, persistence=mock_persistence)
+            >>> di = dict(reading_entry_factory=mock_factory, persistence_driver=mock_persistence)
             >>> command_handler = AddEntryCommandHandler(di)
             >>> mock_event = MagicMock
             >>> mock_event.data = "some_data"
@@ -84,5 +84,5 @@ class AddEntryCommandHandler(BaseHandler):
         """
         reading_factory = self._di.get('reading_entry_factory')
         reading_entry = reading_factory.struct_to_entity(event.data)
-        result = self._di.get('persistence').save(reading_entry)
+        result = self._di.get('persistence_driver').save(reading_entry)
         return SuccessResult() if result else ErrorResult()

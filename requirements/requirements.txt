@@ -1,2 +1,2 @@
 Click==7.0
-tinydb==3.13.0
+tinydb==4.4.0
