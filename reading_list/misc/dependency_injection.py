@@ -1,4 +1,16 @@
 from typing import Any, Dict
+from abc import ABC, abstractmethod
+
+
+class ADependencyInjectionContainer(ABC):
+
+    @abstractmethod
+    def register(self, item: Any, key: str) -> bool:
+        ...
+
+    @abstractmethod
+    def get(self, key: str) -> Any:
+        ...
 
 
 class NaiveDependencyInjectionContainer:
