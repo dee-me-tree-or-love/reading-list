@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 class ADependencyInjectionContainer(ABC):
 
     @abstractmethod
-    def register(self, item: Any, key: str) -> bool:
+    def register(self, key: str, item: Any) -> bool:
         ...
 
     @abstractmethod
@@ -13,7 +13,7 @@ class ADependencyInjectionContainer(ABC):
         ...
 
 
-class NaiveDependencyInjectionContainer:
+class NaiveDependencyInjectionContainer(ADependencyInjectionContainer):
     """Examples:
 
         1. Starts with an empty container
@@ -23,21 +23,21 @@ class NaiveDependencyInjectionContainer:
     """
     _container: Dict[str, Any] = {}
 
-    def register(self, item: Any, key: str) -> bool:
+    def register(self, key: str, item: Any) -> bool:
         """Examples:
 
             1. Adding a new item with key to an empty container returns True
             >>> some_item = 4
             >>> some_key = 'hidden_number'
             >>> di = NaiveDependencyInjectionContainer()
-            >>> di.register(some_item, some_key)
+            >>> di.register(some_key, some_item)
             True
 
             1.1. The added item is stored in the container
             >>> some_item = 4
             >>> some_key = 'hidden_number'
             >>> di = NaiveDependencyInjectionContainer()
-            >>> _ = di.register(some_item, some_key)
+            >>> _ = di.register(some_key, some_item)
             >>> di._container
             {'hidden_number': 4}
 
