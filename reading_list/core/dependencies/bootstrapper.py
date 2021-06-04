@@ -1,17 +1,18 @@
 
+from typing import Any, Type
 from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer
 from reading_list.core.domain.entities import ReadingEntryFactory
 from reading_list.core.persistency.tinydb_driver import TinyDbDriver
 
 
-class DEPENDENCY_INJECTION_ENTRY_KEYS:
+class DependencyInjectionEntryKeys:
     READING_ENTRY_FACTORY = 'reading_entry_factory'
     PERSISTENCE_DRIVER = 'persistence_driver'
 
 
-class BOOTSTRAPPER_VALUE_LOADERS:
+class BootstrapperValueFactories:
     @staticmethod
-    def READING_ENTRY_FACTORY(_) -> ReadingEntryFactory:
+    def READING_ENTRY_FACTORY(_: Any) -> Type[ReadingEntryFactory]:
         return ReadingEntryFactory
 
     @staticmethod
@@ -24,8 +25,8 @@ class NaiveBootstrapper:
         self._container = container
 
     def bootstrap_di(self) -> ADependencyInjectionContainer:
-        self._container.register(DEPENDENCY_INJECTION_ENTRY_KEYS.READING_ENTRY_FACTORY,
-                                 BOOTSTRAPPER_VALUE_LOADERS.READING_ENTRY_FACTORY(self))
-        self._container.register(DEPENDENCY_INJECTION_ENTRY_KEYS.PERSISTENCE_DRIVER,
-                                 BOOTSTRAPPER_VALUE_LOADERS.PERSISTENCE_DRIVER(self._container))
+        self._container.register(DependencyInjectionEntryKeys.READING_ENTRY_FACTORY,
+                                 BootstrapperValueFactories.READING_ENTRY_FACTORY(self))
+        self._container.register(DependencyInjectionEntryKeys.PERSISTENCE_DRIVER,
+                                 BootstrapperValueFactories.PERSISTENCE_DRIVER(self._container))
         return self._container
