@@ -5,4 +5,5 @@
 
 from reading_list.core.persistency.tinydb_driver import TinyDbDriver
 from reading_list.core.domain.entities import ReadingEntryFactory
+from reading_list.core.dependencies.dependency_injection import NaiveDependencyInjectionContainer
 from reading_list.core.dependencies.bootstrapper import NaiveBootstrapper
