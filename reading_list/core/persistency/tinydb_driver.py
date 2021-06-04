@@ -1,7 +1,7 @@
 from tinydb import TinyDB
 
-from reading_list.domain.entities import ReadingEntry
-from reading_list.misc.dependency_injection import ADependencyInjectionContainer
+from reading_list.core.domain.entities import ReadingEntry
+from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer
 
 
 class TinyDbDriver:

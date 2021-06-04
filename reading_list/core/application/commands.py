@@ -1,6 +1,6 @@
-from reading_list.application.inputs import DataInputEvent
-from reading_list.application.results import AResult, SuccessResult, ErrorResult
-from reading_list.misc.dependency_injection import ADependencyInjectionContainer
+from reading_list.core.application.inputs import DataInputEvent
+from reading_list.core.application.results import AResult, SuccessResult, ErrorResult
+from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer
 
 
 class BaseHandler:
