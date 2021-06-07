@@ -22,11 +22,19 @@ class BootstrapperValueFactories:
 
 class NaiveBootstrapper:
     def __init__(self, container: ADependencyInjectionContainer) -> None:
-        self._container = container
+        """Examples:
+            1. New bootstrapper takes in the container
+            >>> from unittest.mock import MagicMock
+            >>> mock_di_container = MagicMock()
+            >>> test_instance = NaiveBootstrapper(mock_di_container)
+            >>> test_instance._di_container == mock_di_container
+            True
+        """
+        self._di_container = container
 
     def bootstrap_di(self) -> ADependencyInjectionContainer:
-        self._container.register(DependencyInjectionEntryKeys.READING_ENTRY_FACTORY,
+        self._di_container.register(DependencyInjectionEntryKeys.READING_ENTRY_FACTORY,
                                  BootstrapperValueFactories.READING_ENTRY_FACTORY(self))
-        self._container.register(DependencyInjectionEntryKeys.PERSISTENCE_DRIVER,
-                                 BootstrapperValueFactories.PERSISTENCE_DRIVER(self._container))
-        return self._container
+        self._di_container.register(DependencyInjectionEntryKeys.PERSISTENCE_DRIVER,
+                                 BootstrapperValueFactories.PERSISTENCE_DRIVER(self._di_container))
+        return self._di_container
