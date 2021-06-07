@@ -8,9 +8,9 @@ from reading_list.core.application.commands import AddEntryCommandHandler
 from reading_list.core.application.inputs import InputEventFactory
 from reading_list.core.application.results import AResult
 from reading_list.core.dependencies.bootstrapper import NaiveBootstrapper
-from reading_list.core.dependencies.dependency_injection import NaiveDependencyInjectionContainer
+from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer, NaiveDependencyInjectionContainer
 
-di_container = NaiveDependencyInjectionContainer()
+di_container: ADependencyInjectionContainer = NaiveDependencyInjectionContainer()
 di_container = NaiveBootstrapper(di_container).bootstrap_di()
 
 

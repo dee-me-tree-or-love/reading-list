@@ -23,6 +23,11 @@ class NaiveDependencyInjectionContainer(ADependencyInjectionContainer):
         >>> di = NaiveDependencyInjectionContainer()
         >>> di._container
         {}
+
+        2. Is a subclass of ADependencyInjectionContainer
+        >>> di = NaiveDependencyInjectionContainer()
+        >>> isinstance(di, ADependencyInjectionContainer)
+        True
     """
 
     def register(self, key: str, item: Any) -> bool:
