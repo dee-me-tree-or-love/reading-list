@@ -12,7 +12,7 @@ class AResult:
     STATUS = ResultStatuses.BASE
 
     @classmethod
-    def is_ok(cls):
+    def is_ok(cls) -> bool:
         return cls.STATUS == ResultStatuses.SUCCESS
 
 

@@ -15,7 +15,7 @@ di_container = NaiveBootstrapper(di_container).bootstrap_di()
 
 
 @click.group()
-def cli():
+def cli() -> None:
     pass
 
 
@@ -24,7 +24,7 @@ def cli():
               help="Title of the reading entry")
 @click.option('-l', '--link',
               help="Link to the reading entry")
-def add(title: str, link: str):
+def add(title: str, link: str) -> None:
     data = InputEventFactory.make_data_input_event(
         dict(title=title, link=link or ''))
     handler = AddEntryCommandHandler(di_container)
