@@ -106,8 +106,7 @@ class TinyDbDriver:
         reading_entry_struct: ReadingEntryStruct = factory.entity_to_struct(
             reading_entry)
         document_to_store = Document(
-            reading_entry_struct,
-            doc_id=self._get_document_id(reading_entry_struct))
+            reading_entry_struct, doc_id=self._get_document_id(reading_entry_struct))
         entry_id = self._db.insert(document_to_store)
         return True if entry_id else False
 
