@@ -14,7 +14,12 @@ di_container = NaiveDependencyInjectionContainer()
 di_container = NaiveBootstrapper(di_container).bootstrap_di()
 
 
-@click.command()
+@click.group()
+def cli():
+    pass
+
+
+@cli.command()
 @click.option('-t', '--title', required=True,
               help="Title of the reading entry")
 @click.option('-l', '--link',
@@ -24,4 +29,8 @@ def add(title: str, link: str):
         dict(title=title, link=link or ''))
     handler = AddEntryCommandHandler(di_container)
     result: AResult = handler.handle(data)
-    click.echo('Ok.' if result.is_okay() else 'Could not add an entry.')
+    click.echo('Ok.' if result.is_ok() else 'Could not add an entry.')
+
+
+if __name__ == '__main__':
+    cli()
