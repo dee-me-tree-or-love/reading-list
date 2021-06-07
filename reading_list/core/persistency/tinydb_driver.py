@@ -63,7 +63,7 @@ class TinyDbDriver:
             >>> with patch.object(TinyDbDriver, '_db', new_callable=PropertyMock) as mock_db:
             ...     with patch('reading_list.core.persistency.tinydb_driver.Document') as mock_document:
             ...         reset_mocks()
-            ...         _ = setup_mock_factory()
+            ...         setup_mock_factory()
             ...         driver = TinyDbDriver(di)
             ...         _ = driver._throwing_save(test_input_entry)
             ...         mock_factory.entity_to_struct.assert_called_once_with(test_input_entry)
