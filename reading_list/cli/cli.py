@@ -6,7 +6,6 @@ import click
 
 from reading_list.core.application.commands import AddEntryCommandHandler
 from reading_list.core.application.inputs import InputEventFactory
-from reading_list.core.application.results import AResult
 from reading_list.core.dependencies.bootstrapper import NaiveBootstrapper
 from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer, NaiveDependencyInjectionContainer
 
@@ -25,10 +24,10 @@ def cli() -> None:
 @click.option('-l', '--link',
               help="Link to the reading entry")
 def add(title: str, link: str) -> None:
-    data = InputEventFactory.make_data_input_event(
-        dict(title=title, link=link or ''))
+    data = InputEventFactory.make_data_input_event(dict(
+        title=title, link=link or ''))
     handler = AddEntryCommandHandler(di_container)
-    result: AResult = handler.handle(data)
+    result = handler.handle(data)
     click.echo('Ok.' if result.is_ok() else 'Could not add an entry.')
 
 
