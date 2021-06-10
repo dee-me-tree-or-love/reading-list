@@ -1,6 +1,7 @@
 from reading_list.core.application.inputs import DataInputEvent
 from reading_list.core.application.results import AResult, SuccessResult, ErrorResult
 from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer
+from reading_list.core.dependencies.bootstrapper import DependencyInjectionEntryKeys
 
 
 class BaseHandler:
@@ -82,7 +83,10 @@ class AddEntryCommandHandler(BaseHandler):
             >>> isinstance(result, ErrorResult)
             True
         """
-        reading_factory = self._di.get('reading_entry_factory')
+        reading_factory = self._di.get(
+            DependencyInjectionEntryKeys.READING_ENTRY_FACTORY)
+        persistency_driver = self._di.get(
+            DependencyInjectionEntryKeys.PERSISTENCE_DRIVER)
         reading_entry = reading_factory.struct_to_entity(event.data)
-        result = self._di.get('persistence_driver').save(reading_entry)
+        result = persistency_driver.save(reading_entry)
         return SuccessResult() if result else ErrorResult()

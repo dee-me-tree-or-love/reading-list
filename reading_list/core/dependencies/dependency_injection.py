@@ -3,6 +3,9 @@ from abc import ABC, abstractmethod
 
 
 class ADependencyInjectionContainer(ABC):
+    def __init__(self) -> None:
+        super().__init__()
+        self._container: Dict[str, Any] = {}
 
     @abstractmethod
     def register(self, key: str, item: Any) -> bool:
@@ -20,8 +23,12 @@ class NaiveDependencyInjectionContainer(ADependencyInjectionContainer):
         >>> di = NaiveDependencyInjectionContainer()
         >>> di._container
         {}
+
+        2. Is a subclass of ADependencyInjectionContainer
+        >>> di = NaiveDependencyInjectionContainer()
+        >>> isinstance(di, ADependencyInjectionContainer)
+        True
     """
-    _container: Dict[str, Any] = {}
 
     def register(self, key: str, item: Any) -> bool:
         """Examples:
