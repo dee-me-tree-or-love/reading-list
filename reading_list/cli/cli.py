@@ -40,7 +40,7 @@ def list() -> None:
     if result.is_ok():
         entries: List[ReadingEntry] = result.data['entries'] or []
         for entry in entries:
-            click.echo(entry)
+            click.echo(f'-> {entry.title} @ {entry.link or "_"}')
     else:
         click.echo('Could not retrieve entries.')
 
