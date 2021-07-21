@@ -1,10 +1,12 @@
+from typing import List
 from tinydb import TinyDB
 from tinydb.table import Document
 
-from reading_list.core.domain.entities import ReadingEntry, ReadingEntryStruct
+from reading_list.core.domain.entities import ReadingEntry, ReadingEntryFactory, ReadingEntryStruct
 from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer
 
 
+# TODO: refactor, add take out the factory dependency, allow it to only return structs
 class TinyDbDriver:
     DB_FILE = 'db.json'
     _db = TinyDB(DB_FILE)
@@ -40,22 +42,21 @@ class TinyDbDriver:
 
     def _throwing_save(self, reading_entry: ReadingEntry) -> bool:
         """Examples:
-
             >>> from unittest.mock import MagicMock, PropertyMock, patch
             >>> mock_factory = MagicMock()
             >>> di = dict(reading_entry_factory=mock_factory)
             >>> test_input_entry = MagicMock()
             >>> test_input_entry.title = "some_title"
             >>> test_input_entry.link = "some_link"
+            >>> def setup_mock_factory():
+            ...     expected_struct = get_test_entry_struct(test_input_entry)
+            ...     mock_factory.entity_to_struct.return_value = expected_struct
             >>> def get_test_entry_struct(reading_entry):
             ...     return dict(title=reading_entry.title, link=reading_entry.link)
             >>> def setup_mock_db(mock_db):
             ...     mock_db_instance = MagicMock()
             ...     mock_db.return_value = mock_db_instance
             ...     return mock_db_instance
-            >>> def setup_mock_factory():
-            ...     expected_struct = get_test_entry_struct(test_input_entry)
-            ...     mock_factory.entity_to_struct.return_value = expected_struct
             >>> def reset_mocks():
             ...     mock_factory.reset_mock()
 
@@ -102,7 +103,7 @@ class TinyDbDriver:
             ...         driver._throwing_save(test_input_entry)
             False
         """
-        factory = self._di.get('reading_entry_factory')
+        factory: ReadingEntryFactory = self._di.get('reading_entry_factory')
         reading_entry_struct: ReadingEntryStruct = factory.entity_to_struct(
             reading_entry)
         document_to_store = Document(
@@ -144,3 +145,38 @@ class TinyDbDriver:
         """
         lower_title = reading_entry_struct['title'].lower()
         return int.from_bytes(lower_title.encode(), byteorder='big')
+
+    def list(self) -> List[ReadingEntry]:
+        """Examples:
+            >>> from unittest.mock import MagicMock, PropertyMock, patch
+            >>> mock_factory = MagicMock()
+            >>> di = dict(reading_entry_factory=mock_factory)
+            >>> def setup_mock_db(mock_db):
+            ...     mock_db_instance = MagicMock()
+            ...     mock_db.return_value = mock_db_instance
+            ...     return mock_db_instance
+            >>> def reset_mocks():
+            ...     mock_factory.reset_mock()
+            
+            1. TinyDbDriver::list retrieves all entries from the database
+            >>> with patch.object(TinyDbDriver, '_db', new_callable=PropertyMock) as mock_db:
+            ...     reset_mocks()
+            ...     mock_db_instance = setup_mock_db(mock_db)
+            ...     driver = TinyDbDriver(di)
+            ...     _ = driver.list()
+            ...     mock_db_instance.all.assert_called_once_with()
+
+            2. TinyDbDriver::list returns all entries from the database
+            >>> with patch.object(TinyDbDriver, '_db', new_callable=PropertyMock) as mock_db:
+            ...     reset_mocks()
+            ...     mock_db_instance = setup_mock_db(mock_db)
+            ...     expected_entry_structs = ['a', 'b', 'c']
+            ...     mock_db_instance.all.return_value = expected_entry_structs
+            ...     mock_factory.struct_to_entity.side_effect = lambda x: f'<entity>_{x}'
+            ...     driver = TinyDbDriver(di)
+            ...     driver.list()
+            ['<entity>_a', '<entity>_b', '<entity>_c']
+        """
+        reading_entries: List[ReadingEntryStruct] = self._db.all()
+        factory: ReadingEntryFactory = self._di.get('reading_entry_factory')
+        return list(map(factory.struct_to_entity, reading_entries))

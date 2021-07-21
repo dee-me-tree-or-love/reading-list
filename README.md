@@ -7,7 +7,24 @@ Manage your links to read using this CLI tool!
 
 ## Usage
 
-<!-- To be defined -->
+> Disclaimer: a more convenient way will be provided in the future :ok_hand:
+
+### Getting started
+
+For now the only way is to clone the repository. 
+
+### Basic usage
+
+The easiest way to test the reading list out is to use the `cli` module:
+
+```bash
+$ python3 -m reading_list.cli.cli add \
+    --title "To Kill a Mockingbird" \
+    --link "https://en.wikipedia.org/wiki/To_Kill_a_Mockingbird"
+Ok.
+$ python3 -m reading_list.cli list
+-> To Kill a Mockingbird @ https://en.wikipedia.org/wiki/To_Kill_a_Mockingbird
+```
 
 ## Development
 

@@ -1,7 +1,11 @@
+from typing import Any, Dict, Optional
+
+
 class ResultStatuses:
     BASE = 'base'
     SUCCESS = 'success'
     ERROR = 'error'
+
 
 class AResult:
     """Examples:
@@ -10,6 +14,15 @@ class AResult:
         False
     """
     STATUS = ResultStatuses.BASE
+
+    def __init__(self, data: Optional[Dict[str, Any]] = None) -> None:
+        """Examples:
+            >>> data = {'foo': 'bar'} 
+            >>> result = AResult(data=data)
+            >>> result.data == data
+            True
+        """
+        self.data: Dict[str, Any] = data or {}
 
     @classmethod
     def is_ok(cls) -> bool:
@@ -23,6 +36,7 @@ class SuccessResult(AResult):
         True
     """
     STATUS = ResultStatuses.SUCCESS
+
 
 class ErrorResult(AResult):
     """Examples:
