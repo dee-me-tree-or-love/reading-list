@@ -6,7 +6,6 @@ from reading_list.core.domain.entities import ReadingEntryStruct
 from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer
 
 
-# TODO: refactor, add take out the factory dependency, allow it to only return structs
 class TinyDbDriver:
     DB_FILE = 'db.json'
     _db = TinyDB(DB_FILE)
