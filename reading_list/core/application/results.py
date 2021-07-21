@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 
 class ResultStatuses:
@@ -15,7 +15,7 @@ class AResult:
     """
     STATUS = ResultStatuses.BASE
 
-    def __init__(self, data: Dict[str, Any] = None) -> None:
+    def __init__(self, data: Optional[Dict[str, Any]] = None) -> None:
         """Examples:
             >>> data = {'foo': 'bar'} 
             >>> result = AResult(data=data)
