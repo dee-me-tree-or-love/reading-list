@@ -90,3 +90,32 @@ class AddEntryCommandHandler(BaseHandler):
         reading_entry = reading_factory.struct_to_entity(event.data)
         result = persistency_driver.save(reading_entry)
         return SuccessResult() if result else ErrorResult()
+
+class ListEntriesCommandHandler(BaseHandler):
+    def _own_handle(self, _: DataInputEvent) -> AResult:
+        """Examples:
+            >>> from unittest.mock import MagicMock, patch
+            >>> mock_persistence = MagicMock()
+            >>> di = dict(persistence_driver=mock_persistence)
+            >>> mock_event = None
+            >>> command_handler = ListEntriesCommandHandler(di)
+            >>> def reset_mocks():
+            ...     mock_persistence.reset_mock()
+
+            1. ListEntriesCommandHandler::_own_handle retrieves a list of entries from the persistency driver
+            >>> reset_mocks()
+            >>> _ = command_handler._own_handle(mock_event)
+            >>> mock_persistence.list.assert_called_once_with()
+
+            2. ListEntriesCommandHandler::_own_handle returns a list of entries as data of the result
+            >>> reset_mocks()
+            >>> expected_reading_items = ['Vango', 'We', '451']
+            >>> mock_persistence.list.return_value = expected_reading_items
+            >>> result = command_handler._own_handle(mock_event)
+            >>> result.data['entries'] == expected_reading_items
+            True
+        """
+        persistency_driver = self._di.get(
+            DependencyInjectionEntryKeys.PERSISTENCE_DRIVER)
+        reading_entries = persistency_driver.list()
+        return SuccessResult(data={'entries': reading_entries})
