@@ -2,7 +2,7 @@ from typing import List
 from tinydb import TinyDB
 from tinydb.table import Document
 
-from reading_list.core.domain.entities import ReadingEntry, ReadingEntryFactory, ReadingEntryStruct
+from reading_list.core.domain.entities import ReadingEntryStruct
 from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer
 
 
@@ -14,7 +14,7 @@ class TinyDbDriver:
     def __init__(self, di: ADependencyInjectionContainer):
         self._di = di
 
-    def save(self, reading_entry: ReadingEntry) -> bool:
+    def save(self, reading_entry_struct: ReadingEntryStruct) -> bool:
         """Examples:
 
             >>> from unittest.mock import MagicMock, patch
@@ -36,78 +36,64 @@ class TinyDbDriver:
             False
         """
         try:
-            return self._throwing_save(reading_entry)
+            return self._throwing_save(reading_entry_struct)
         except ValueError:
             return False
 
-    def _throwing_save(self, reading_entry: ReadingEntry) -> bool:
+    def _throwing_save(self, reading_entry_struct: ReadingEntryStruct) -> bool:
         """Examples:
             >>> from unittest.mock import MagicMock, PropertyMock, patch
-            >>> mock_factory = MagicMock()
-            >>> di = dict(reading_entry_factory=mock_factory)
-            >>> test_input_entry = MagicMock()
-            >>> test_input_entry.title = "some_title"
-            >>> test_input_entry.link = "some_link"
-            >>> def setup_mock_factory():
-            ...     expected_struct = get_test_entry_struct(test_input_entry)
-            ...     mock_factory.entity_to_struct.return_value = expected_struct
-            >>> def get_test_entry_struct(reading_entry):
-            ...     return dict(title=reading_entry.title, link=reading_entry.link)
+            >>> di = dict()
+            >>> test_input_entry_struct = dict(title='foo', link='bar')
             >>> def setup_mock_db(mock_db):
             ...     mock_db_instance = MagicMock()
             ...     mock_db.return_value = mock_db_instance
             ...     return mock_db_instance
-            >>> def reset_mocks():
-            ...     mock_factory.reset_mock()
 
-            1. TinyDbDriver::_throwing_save uses the struct of the reading entry
+            1. TinyDbDriver::_throwing_save saves the struct of the reading entry as new Document with custom id
             >>> with patch.object(TinyDbDriver, '_db', new_callable=PropertyMock) as mock_db:
-            ...     with patch('reading_list.core.persistency.tinydb_driver.Document') as mock_document:
-            ...         reset_mocks()
-            ...         setup_mock_factory()
-            ...         driver = TinyDbDriver(di)
-            ...         _ = driver._throwing_save(test_input_entry)
-            ...         mock_factory.entity_to_struct.assert_called_once_with(test_input_entry)
+            ...     with patch.object(TinyDbDriver, '_get_document_id') as mock_get_document_id:
+            ...         with patch('reading_list.core.persistency.tinydb_driver.Document') as mock_document:
+            ...             mock_db_instance = setup_mock_db(mock_db)
+            ...             expected_document = 'some_document'
+            ...             expected_document_id = 'some_document_id'
+            ...             mock_get_document_id.return_value = expected_document_id
+            ...             driver = TinyDbDriver(di)
+            ...             _ = driver._throwing_save(test_input_entry_struct)
+            ...             mock_document.assert_called_once_with(test_input_entry_struct, expected_document_id)
 
             2. TinyDbDriver::_throwing_save saves the struct of the reading entry
             >>> with patch.object(TinyDbDriver, '_db', new_callable=PropertyMock) as mock_db:
-            ...     with patch('reading_list.core.persistency.tinydb_driver.Document') as mock_document:
-            ...         reset_mocks()
-            ...         setup_mock_factory()
-            ...         mock_db_instance = setup_mock_db(mock_db)
-            ...         expected_document = "some_document"
-            ...         mock_document.return_value = expected_document
-            ...         driver = TinyDbDriver(di)
-            ...         _ = driver._throwing_save(test_input_entry)
-            ...         mock_db_instance.insert.assert_called_once_with(expected_document)
+            ...     with patch.object(TinyDbDriver, '_get_document_id') as mock_get_document_id:
+            ...         with patch('reading_list.core.persistency.tinydb_driver.Document') as mock_document:
+            ...             mock_db_instance = setup_mock_db(mock_db)
+            ...             mock_document.return_value = expected_document
+            ...             driver = TinyDbDriver(di)
+            ...             _ = driver._throwing_save(test_input_entry_struct)
+            ...             mock_db_instance.insert.assert_called_once_with(expected_document)
 
             3. TinyDbDriver::_throwing_save returns True if the result of insert is a valid document id
             >>> with patch.object(TinyDbDriver, '_db', new_callable=PropertyMock) as mock_db:
-            ...     with patch('reading_list.core.persistency.tinydb_driver.Document') as mock_document:
-            ...         reset_mocks()
-            ...         setup_mock_factory()
-            ...         mock_db_instance = setup_mock_db(mock_db)
-            ...         mock_db_instance.insert.return_value = "some_valid_document_id"
-            ...         driver = TinyDbDriver(di)
-            ...         driver._throwing_save(test_input_entry)
+            ...     with patch.object(TinyDbDriver, '_get_document_id') as mock_get_document_id:
+            ...         with patch('reading_list.core.persistency.tinydb_driver.Document') as mock_document:
+            ...             mock_db_instance = setup_mock_db(mock_db)
+            ...             mock_db_instance.insert.return_value = "some_valid_document_id"
+            ...             driver = TinyDbDriver(di)
+            ...             driver._throwing_save(test_input_entry_struct)
             True
 
             4. TinyDbDriver::_throwing_save returns False if the result of insert is not a valid document id
             >>> with patch.object(TinyDbDriver, '_db', new_callable=PropertyMock) as mock_db:
-            ...     with patch('reading_list.core.persistency.tinydb_driver.Document') as mock_document:
-            ...         reset_mocks()
-            ...         setup_mock_factory()
-            ...         mock_db_instance = setup_mock_db(mock_db)
-            ...         mock_db_instance.insert.return_value = None
-            ...         driver = TinyDbDriver(di)
-            ...         driver._throwing_save(test_input_entry)
+            ...     with patch.object(TinyDbDriver, '_get_document_id') as mock_get_document_id:
+            ...         with patch('reading_list.core.persistency.tinydb_driver.Document') as mock_document:
+            ...             mock_db_instance = setup_mock_db(mock_db)
+            ...             mock_db_instance.insert.return_value = None
+            ...             driver = TinyDbDriver(di)
+            ...             driver._throwing_save(test_input_entry_struct)
             False
         """
-        factory: ReadingEntryFactory = self._di.get('reading_entry_factory')
-        reading_entry_struct: ReadingEntryStruct = factory.entity_to_struct(
-            reading_entry)
-        document_to_store = Document(
-            reading_entry_struct, doc_id=self._get_document_id(reading_entry_struct))
+        new_doc_id = self._get_document_id(reading_entry_struct)
+        document_to_store = Document(reading_entry_struct, new_doc_id)
         entry_id = self._db.insert(document_to_store)
         return True if entry_id else False
 
@@ -146,37 +132,30 @@ class TinyDbDriver:
         lower_title = reading_entry_struct['title'].lower()
         return int.from_bytes(lower_title.encode(), byteorder='big')
 
-    def list(self) -> List[ReadingEntry]:
+    def list(self) -> List[ReadingEntryStruct]:
         """Examples:
             >>> from unittest.mock import MagicMock, PropertyMock, patch
-            >>> mock_factory = MagicMock()
-            >>> di = dict(reading_entry_factory=mock_factory)
+            >>> di = dict()
             >>> def setup_mock_db(mock_db):
             ...     mock_db_instance = MagicMock()
             ...     mock_db.return_value = mock_db_instance
             ...     return mock_db_instance
-            >>> def reset_mocks():
-            ...     mock_factory.reset_mock()
-            
-            1. TinyDbDriver::list retrieves all entries from the database
+
+            1. TinyDbDriver::list retrieves all structs from the database
             >>> with patch.object(TinyDbDriver, '_db', new_callable=PropertyMock) as mock_db:
-            ...     reset_mocks()
             ...     mock_db_instance = setup_mock_db(mock_db)
             ...     driver = TinyDbDriver(di)
             ...     _ = driver.list()
             ...     mock_db_instance.all.assert_called_once_with()
 
-            2. TinyDbDriver::list returns all entries from the database
+            2. TinyDbDriver::list returns all structs from the database
             >>> with patch.object(TinyDbDriver, '_db', new_callable=PropertyMock) as mock_db:
-            ...     reset_mocks()
             ...     mock_db_instance = setup_mock_db(mock_db)
             ...     expected_entry_structs = ['a', 'b', 'c']
             ...     mock_db_instance.all.return_value = expected_entry_structs
-            ...     mock_factory.struct_to_entity.side_effect = lambda x: f'<entity>_{x}'
             ...     driver = TinyDbDriver(di)
             ...     driver.list()
-            ['<entity>_a', '<entity>_b', '<entity>_c']
+            ['a', 'b', 'c']
         """
-        reading_entries: List[ReadingEntryStruct] = self._db.all()
-        factory: ReadingEntryFactory = self._di.get('reading_entry_factory')
-        return list(map(factory.struct_to_entity, reading_entries))
+        reading_entry_structs: List[ReadingEntryStruct] = self._db.all()
+        return reading_entry_structs

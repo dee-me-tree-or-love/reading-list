@@ -22,7 +22,7 @@ $ python3 -m reading_list.cli.cli add \
     --title "To Kill a Mockingbird" \
     --link "https://en.wikipedia.org/wiki/To_Kill_a_Mockingbird"
 Ok.
-$ python3 -m reading_list.cli list
+$ python3 -m reading_list.cli.cli list
 -> To Kill a Mockingbird @ https://en.wikipedia.org/wiki/To_Kill_a_Mockingbird
 ```
 
