@@ -2,12 +2,14 @@
 # 1. build click command runtime for adding new reading list entries
 # 2. refactor dependency injection bootstrapping
 # 3. implement the click command runtime for listing list entries
+from typing import List
 import click
 
-from reading_list.core.application.commands import AddEntryCommandHandler
+from reading_list.core.application.commands import AddEntryCommandHandler, ListEntriesCommandHandler
 from reading_list.core.application.inputs import InputEventFactory
 from reading_list.core.dependencies.bootstrapper import NaiveBootstrapper
 from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer, NaiveDependencyInjectionContainer
+from reading_list.core.domain.entities import ReadingEntry
 
 di_container: ADependencyInjectionContainer = NaiveDependencyInjectionContainer()
 di_container = NaiveBootstrapper(di_container).bootstrap_di()
@@ -30,6 +32,17 @@ def add(title: str, link: str) -> None:
     result = handler.handle(data)
     click.echo('Ok.' if result.is_ok() else 'Could not add an entry.')
 
+@cli.command()
+def list() -> None:
+    data = InputEventFactory.make_data_input_event({})
+    handler = ListEntriesCommandHandler(di_container)
+    result = handler.handle(data)
+    if result.is_ok():
+        entries: List[ReadingEntry] = result.data['entries'] or []
+        for entry in entries:
+            click.echo(entry)
+    else:
+        click.echo('Could not retrieve entries.')
 
 if __name__ == '__main__':
     cli()
