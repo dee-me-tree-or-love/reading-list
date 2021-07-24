@@ -4,10 +4,11 @@ from tinydb.table import Document
 
 from reading_list.core.domain.entities import ReadingEntryStruct
 from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer
+from reading_list.shared.config import DEFAULT_CONFIGS
 
 
 class TinyDbDriver:
-    DB_FILE = 'db.json'
+    DB_FILE = DEFAULT_CONFIGS.db.tinyDb.location
     _db = TinyDB(DB_FILE)
 
     def __init__(self, di: ADependencyInjectionContainer):
