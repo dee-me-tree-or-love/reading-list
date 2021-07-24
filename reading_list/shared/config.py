@@ -84,4 +84,5 @@ def merge_configs(config: AConfig, custom_config: Optional[Dict[str, Any]] = Non
 def load_configs(config_path: str) -> AConfig:
     with open(config_path) as f:
         custom_config: Dict[str, Any] = json.load(f)
-        return merge_configs(DEFAULT_CONFIGS, custom_config)
+    base_configs = Config()
+    return merge_configs(base_configs, custom_config)
