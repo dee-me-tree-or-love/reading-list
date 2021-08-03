@@ -28,8 +28,6 @@ APP_STARTER = AppStarter()
               help='Path to a configuration JSON file')
 def cli(configuration: str) -> None:
     if configuration:
-        click.secho(
-            f'<DEBUG> Configuration path: {configuration}', fg='yellow')
         configs = initialize_custom_configs(configuration)
         APP_STARTER.setup_di_with_configs(configs)
     else:
