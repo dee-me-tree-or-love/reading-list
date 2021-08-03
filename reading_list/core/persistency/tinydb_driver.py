@@ -1,5 +1,5 @@
 from reading_list.core.dependencies.keys import DependencyInjectionEntryKeys
-from typing import List, cast
+from typing import List, Optional, cast
 from tinydb import TinyDB
 from tinydb.table import Document
 
@@ -10,6 +10,18 @@ from reading_list.shared.config import Config, DEFAULT_CONFIGS
 
 class TinyDbDriver:
     DEFAULT_DB_FILE = DEFAULT_CONFIGS.db.tiny_db.location
+    __db: Optional[TinyDB] = None
+
+    @property
+    def _db(self) -> TinyDB:
+        if self.__db:
+            return self.__db
+        else:
+            raise ValueError('Database is not instantialized!')
+
+    @_db.setter
+    def _db(self, value: TinyDB) -> None:
+        self.__db = value
 
     def __init__(self, di: ADependencyInjectionContainer):
         self._di = di

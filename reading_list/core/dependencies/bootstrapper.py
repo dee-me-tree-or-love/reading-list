@@ -32,7 +32,7 @@ class NaiveDependencyInjectionBootstrapper(ADependencyInjectionBootstrapper):
             1. New bootstrapper takes in the container
             >>> from unittest.mock import MagicMock
             >>> mock_di_container = MagicMock()
-            >>> test_instance = NaiveBootstrapper(mock_di_container)
+            >>> test_instance = NaiveDependencyInjectionBootstrapper(mock_di_container)
             >>> test_instance._di_container == mock_di_container
             True
         """
