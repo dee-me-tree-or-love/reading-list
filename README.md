@@ -49,7 +49,7 @@ $ python3 -m reading_list.cli.cli \
 
 | Setting Path | `<Type>:=<default>` | Description |
 | ------------ | ---- | ----------- |
-| `db. tiny_db.location` | `str:='db.json'` | A path for the TinyDB database file |
+| `db.tiny_db.location` | `str:='db.json'` | A path for the TinyDB database file |
 
 ## Development
 
