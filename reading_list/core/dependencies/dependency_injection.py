@@ -15,6 +15,9 @@ class ADependencyInjectionContainer(ABC):
     def get(self, key: str) -> Any:
         ...
 
+    def __str__(self) -> str:
+        return ',\n'.join([f'{k}: {v}' for k, v in self._container.items()])
+
 
 class NaiveDependencyInjectionContainer(ADependencyInjectionContainer):
     """Examples:
