@@ -3,7 +3,8 @@
 # ----
 
 .vscode
-db.json
+db*.json
+config*.json
 
 # ----
 # Python
