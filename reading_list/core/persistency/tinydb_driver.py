@@ -1,18 +1,24 @@
-from typing import List
+from reading_list.core.dependencies.keys import DependencyInjectionEntryKeys
+from typing import List, cast
 from tinydb import TinyDB
 from tinydb.table import Document
 
 from reading_list.core.domain.entities import ReadingEntryStruct
 from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer
-from reading_list.shared.config import DEFAULT_CONFIGS
+from reading_list.shared.config import Config, DEFAULT_CONFIGS
 
 
 class TinyDbDriver:
-    DB_FILE = DEFAULT_CONFIGS.db.tinyDb.location
-    _db = TinyDB(DB_FILE)
+    DEFAULT_DB_FILE = DEFAULT_CONFIGS.db.tiny_db.location
 
     def __init__(self, di: ADependencyInjectionContainer):
         self._di = di
+        try:
+            configs: Config = cast(
+                Config, self._di.get(DependencyInjectionEntryKeys.APP_CONFIGS))
+            self._db = TinyDB(configs.db.tiny_db.location)
+        except Exception:
+            self._db = TinyDB(self.DEFAULT_DB_FILE)
 
     def save(self, reading_entry_struct: ReadingEntryStruct) -> bool:
         """Examples:
