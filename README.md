@@ -26,7 +26,7 @@ $ python3 -m reading_list.cli.cli list
 -> To Kill a Mockingbird @ https://en.wikipedia.org/wiki/To_Kill_a_Mockingbird
 ```
 
-### Using a custom configuration file
+#### Custom configuration files
 
 It is also possible to provide a custom configuration file to override default behavior:
 
@@ -43,7 +43,7 @@ $ python3 -m reading_list.cli.cli \
 -> To Kill a Mockingbird @ https://en.wikipedia.org/wiki/To_Kill_a_Mockingbird
 ```
 
-#### Supported configurations
+##### Supported configurations
 
 > For the most up to date settings, see `reading_list/shared/config.py`
 
