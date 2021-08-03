@@ -22,9 +22,34 @@ $ python3 -m reading_list.cli.cli add \
     --title "To Kill a Mockingbird" \
     --link "https://en.wikipedia.org/wiki/To_Kill_a_Mockingbird"
 Ok.
-$ python3 -m reading_list.cli list
+$ python3 -m reading_list.cli.cli list
 -> To Kill a Mockingbird @ https://en.wikipedia.org/wiki/To_Kill_a_Mockingbird
 ```
+
+#### Custom configuration files
+
+It is also possible to provide a custom configuration file to override default behavior:
+
+```bash
+$ python3 -m reading_list.cli.cli \
+    --configuration "example_config.json" \
+    add \
+    --title "To Kill a Mockingbird" \
+    --link "https://en.wikipedia.org/wiki/To_Kill_a_Mockingbird"
+Ok.
+$ python3 -m reading_list.cli.cli \
+    --configuration "example_config.json" \
+    list
+-> To Kill a Mockingbird @ https://en.wikipedia.org/wiki/To_Kill_a_Mockingbird
+```
+
+##### Supported configurations
+
+> For the most up to date settings, see `reading_list/shared/config.py`
+
+| Setting Path | `<Type>:=<default>` | Description |
+| ------------ | ---- | ----------- |
+| `db. tiny_db.location` | `str:='db.json'` | A path for the TinyDB database file |
 
 ## Development
 

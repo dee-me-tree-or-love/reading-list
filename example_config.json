@@ -1,0 +1,7 @@
+{
+    "db": {
+        "tiny_db": {
+            "location": "db-example.json"
+        }
+    }
+}
