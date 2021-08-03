@@ -14,11 +14,11 @@ class TinyDbConfig(AConfig):
 
 
 class DbDriverConfigOptions(AConfig):
-    tinyDb: AConfig = TinyDbConfig()
+    tiny_db: TinyDbConfig = TinyDbConfig()
 
 
 class Config(AConfig):
-    db: AConfig = DbDriverConfigOptions()
+    db: DbDriverConfigOptions = DbDriverConfigOptions()
 
 
 DEFAULT_CONFIGS = Config()
@@ -26,7 +26,7 @@ DEFAULT_CONFIGS = Config()
 
 def merge_configs(config: AConfig, custom_config: Optional[Dict[str, Any]] = None) -> AConfig:
     """Examples:
-    
+
     >>> from unittest.mock import patch, MagicMock
 
     >>> default_config_value = "bar"
@@ -41,7 +41,7 @@ def merge_configs(config: AConfig, custom_config: Optional[Dict[str, Any]] = Non
     ...
     >>> def get_test_config():
     ...     return TestConfigClass()
-    
+
     1. merge_configs: returns base config without changes if no custom configs are supplied
     >>> test_config = get_test_config()
     >>> result_config = merge_configs(test_config)
@@ -81,7 +81,7 @@ def merge_configs(config: AConfig, custom_config: Optional[Dict[str, Any]] = Non
     return _update_config(config, custom_config) if custom_config else config
 
 
-def load_configs(config_path: str) -> AConfig:
+def initialize_custom_configs(config_path: str) -> AConfig:
     with open(config_path) as f:
         custom_config: Dict[str, Any] = json.load(f)
     base_configs = Config()
