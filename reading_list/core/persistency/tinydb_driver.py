@@ -15,7 +15,23 @@ class TinyDbDriver:
 
     @property
     def _db(self) -> TinyDB:
-        if self.__db:
+        """Examples:
+
+            >>> import pytest
+            >>> di = dict()
+
+            1. TinyDbDriver::_db returns a database instance if setup
+            >>> test_instance = TinyDbDriver(di)
+            >>> isinstance(test_instance._db, TinyDB)
+            True
+
+            2. TinyDbDriver::_db raises a ValueError if database is not setup
+            >>> test_instance = TinyDbDriver(di)
+            >>> test_instance._db = None
+            >>> with pytest.raises(ValueError):
+            ...     print(test_instance._db)
+        """
+        if self.__db is not None:
             return self.__db
         else:
             raise ValueError('Database is not instantialized!')
