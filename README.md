@@ -55,7 +55,7 @@ $ python3 -m reading_list.cli.cli \
 
 ### Pre-Requisites
 
-- [`Python 3.7+`](https://www.python.org/downloads/)
+- [`Python 3.8+`](https://www.python.org/downloads/)
 - [`make`](https://www.gnu.org/software/make/)
 
 ### Utilities
