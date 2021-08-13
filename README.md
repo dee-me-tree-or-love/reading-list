@@ -92,4 +92,5 @@ pytest reading_list/ --doctest-modules -vvv
 ```bash
 $ make flake8 # run the flake8 python style checks
 $ make mypy # run the mypy type checker
+$ make isort # run automated import sorting on all reading_list files (modifies files!)
 ```

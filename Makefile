@@ -11,3 +11,5 @@ flake8:
 	flake8 --doctests --statistics --count reading_list
 mypy:
 	mypy reading_list/ --ignore-missing-imports --strict
+isort:
+	isort -p reading_list -l 99 -e reading_list
