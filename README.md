@@ -66,7 +66,7 @@ check the [`Makefile`](./Makefile) contents.
 #### Setup virtual environment
 
 ```bash
-$ make virtualenv-setup
+$ make venv
 virtualenv .venv
 created virtual environment ...
 $ . .venv/bin/activate # or appropriate command for your system
@@ -90,6 +90,6 @@ pytest reading_list/ --doctest-modules -vvv
 #### Lint & Type Checking
 
 ```bash
-$ make lint # run the python linter
+$ make flake8 # run the flake8 python style checks
 $ make mypy # run the mypy type checker
 ```

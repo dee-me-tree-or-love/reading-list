@@ -1,0 +1,3 @@
+[flake8]
+ignore = H301, H306, H101
+max-line-length = 99
