@@ -21,9 +21,9 @@ jobs:
           python -m pip install --upgrade pip
           make requirements-core
           make requirements-dev
-      - name: Lint
+      - name: Run flake8 checks
         run: |
-          make lint
+          make flake8
       - name: Run (unit) tests
         run: |
           make test
