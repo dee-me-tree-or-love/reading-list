@@ -49,13 +49,13 @@ $ python3 -m reading_list.cli.cli \
 
 | Setting Path | `<Type>:=<default>` | Description |
 | ------------ | ---- | ----------- |
-| `db. tiny_db.location` | `str:='db.json'` | A path for the TinyDB database file |
+| `db.tiny_db.location` | `str:='db.json'` | A path for the TinyDB database file |
 
 ## Development
 
 ### Pre-Requisites
 
-- [`Python 3.7+`](https://www.python.org/downloads/)
+- [`Python 3.8+`](https://www.python.org/downloads/)
 - [`make`](https://www.gnu.org/software/make/)
 
 ### Utilities
@@ -66,7 +66,7 @@ check the [`Makefile`](./Makefile) contents.
 #### Setup virtual environment
 
 ```bash
-$ make virtualenv-setup
+$ make venv
 virtualenv .venv
 created virtual environment ...
 $ . .venv/bin/activate # or appropriate command for your system
@@ -90,6 +90,7 @@ pytest reading_list/ --doctest-modules -vvv
 #### Lint & Type Checking
 
 ```bash
-$ make lint # run the python linter
+$ make flake8 # run the flake8 python style checks
 $ make mypy # run the mypy type checker
+$ make isort # run automated import sorting on all reading_list files (modifies files!)
 ```

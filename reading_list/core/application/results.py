@@ -9,6 +9,7 @@ class ResultStatuses:
 
 class AResult:
     """Examples:
+
         >>> result = AResult()
         >>> result.is_ok()
         False
@@ -17,7 +18,8 @@ class AResult:
 
     def __init__(self, data: Optional[Dict[str, Any]] = None) -> None:
         """Examples:
-            >>> data = {'foo': 'bar'} 
+
+            >>> data = {'foo': 'bar'}
             >>> result = AResult(data=data)
             >>> result.data == data
             True
@@ -31,6 +33,7 @@ class AResult:
 
 class SuccessResult(AResult):
     """Examples:
+
         >>> result = SuccessResult()
         >>> result.is_ok()
         True
@@ -40,6 +43,7 @@ class SuccessResult(AResult):
 
 class ErrorResult(AResult):
     """Examples:
+
         >>> result = ErrorResult()
         >>> result.is_ok()
         False
