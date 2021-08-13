@@ -3,8 +3,7 @@ from typing import List, Optional, cast
 from tinydb import TinyDB
 from tinydb.table import Document
 
-from reading_list.core.dependencies.dependency_injection import \
-    ADependencyInjectionContainer
+from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer
 from reading_list.core.dependencies.keys import DependencyInjectionEntryKeys
 from reading_list.core.domain.entities import ReadingEntryStruct
 from reading_list.shared.config import DEFAULT_CONFIGS, Config

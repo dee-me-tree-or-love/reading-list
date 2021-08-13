@@ -1,9 +1,10 @@
 from typing import List
-from reading_list.core.domain.entities import ReadingEntry, ReadingEntryStruct
+
 from reading_list.core.application.inputs import DataInputEvent
-from reading_list.core.application.results import AResult, SuccessResult, ErrorResult
+from reading_list.core.application.results import AResult, ErrorResult, SuccessResult
 from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer
 from reading_list.core.dependencies.keys import DependencyInjectionEntryKeys
+from reading_list.core.domain.entities import ReadingEntry, ReadingEntryStruct
 
 
 class BaseHandler:

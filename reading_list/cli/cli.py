@@ -5,13 +5,12 @@ import click
 from reading_list.core.application.commands import (AddEntryCommandHandler,
                                                     ListEntriesCommandHandler)
 from reading_list.core.application.inputs import InputEventFactory
-from reading_list.core.dependencies.bootstrapper import (
-    ADependencyInjectionBootstrapper, NaiveDependencyInjectionBootstrapper)
-from reading_list.core.dependencies.dependency_injection import (
-    ADependencyInjectionContainer, NaiveDependencyInjectionContainer)
+from reading_list.core.dependencies.bootstrapper import (ADependencyInjectionBootstrapper,
+                                                         NaiveDependencyInjectionBootstrapper)
+from reading_list.core.dependencies.dependency_injection import (ADependencyInjectionContainer,
+                                                                 NaiveDependencyInjectionContainer)
 from reading_list.core.domain.entities import ReadingEntry
-from reading_list.shared.config import (DEFAULT_CONFIGS, AConfig,
-                                        initialize_custom_configs)
+from reading_list.shared.config import DEFAULT_CONFIGS, AConfig, initialize_custom_configs
 
 
 class AppStarter:

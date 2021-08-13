@@ -1,7 +1,7 @@
-from typing import Any, Dict, Optional
-from inspect import getmembers
-import os
 import json
+import os
+from inspect import getmembers
+from typing import Any, Dict, Optional
 
 
 class AConfig:
