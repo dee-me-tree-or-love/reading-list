@@ -30,3 +30,7 @@ jobs:
       - name: Mypy
         run: |
           make mypy
+      - name: Usage tests - add entry and list
+        run: |
+          python3 -m reading_list.cli.cli add --title "foo" --link "bar"
+          python3 -m reading_list.cli.cli list
