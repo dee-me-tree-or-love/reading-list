@@ -6,7 +6,7 @@ import json
 
 class AConfig:
     """Required abstract class indicating a new configuration."""
-    pass
+    ...
 
 
 class TinyDbConfig(AConfig):
@@ -27,15 +27,13 @@ DEFAULT_CONFIGS = Config()
 def merge_configs(config: AConfig, custom_config: Optional[Dict[str, Any]] = None) -> AConfig:
     """Examples:
 
-    >>> from unittest.mock import patch, MagicMock
-
     >>> default_config_value = "bar"
     >>> class TestConfigClass(AConfig):
     ...     class TestConfigClassEmbedded(AConfig):
     ...         foo = default_config_value
     ...     sub_config = TestConfigClassEmbedded()
     ...     foo = default_config_value
-    ...     
+    ...
     ...     def __str__(self):
     ...         return f'foo: {self.foo}, sub_config: foo: {self.sub_config.foo}'
     ...
@@ -82,7 +80,7 @@ def merge_configs(config: AConfig, custom_config: Optional[Dict[str, Any]] = Non
 
 
 def initialize_custom_configs(config_path: str) -> AConfig:
-    with open(config_path) as f:
-        custom_config: Dict[str, Any] = json.load(f)
+    with open(config_path) as file:
+        custom_config: Dict[str, Any] = json.load(file)
     base_configs = Config()
     return merge_configs(base_configs, custom_config)

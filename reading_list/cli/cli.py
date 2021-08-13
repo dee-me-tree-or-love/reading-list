@@ -1,19 +1,24 @@
 from typing import List
+
 import click
 
-from reading_list.core.application.commands import AddEntryCommandHandler, ListEntriesCommandHandler
+from reading_list.core.application.commands import (AddEntryCommandHandler,
+                                                    ListEntriesCommandHandler)
 from reading_list.core.application.inputs import InputEventFactory
-from reading_list.core.dependencies.bootstrapper import ADependencyInjectionBootstrapper, NaiveDependencyInjectionBootstrapper
-from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer, NaiveDependencyInjectionContainer
+from reading_list.core.dependencies.bootstrapper import (
+    ADependencyInjectionBootstrapper, NaiveDependencyInjectionBootstrapper)
+from reading_list.core.dependencies.dependency_injection import (
+    ADependencyInjectionContainer, NaiveDependencyInjectionContainer)
 from reading_list.core.domain.entities import ReadingEntry
-from reading_list.shared.config import AConfig, DEFAULT_CONFIGS, initialize_custom_configs
+from reading_list.shared.config import (DEFAULT_CONFIGS, AConfig,
+                                        initialize_custom_configs)
 
 
 class AppStarter:
     def __init__(self) -> None:
-        self.di_container: ADependencyInjectionContainer = NaiveDependencyInjectionContainer()
-        self.di_bootstrapper: ADependencyInjectionBootstrapper = NaiveDependencyInjectionBootstrapper(
-            self.di_container)
+        self.di_container: ADependencyInjectionContainer = NaiveDependencyInjectionContainer() # noqa
+        self.di_bootstrapper: ADependencyInjectionBootstrapper = NaiveDependencyInjectionBootstrapper( # noqa
+            self.di_container) # noqa
 
     def setup_di_with_configs(self, configs: AConfig) -> None:
         self.di_container = self.di_bootstrapper.bootstrap_with_configurations(

@@ -29,6 +29,7 @@ class ADependencyInjectionBootstrapper(ABC):
 class NaiveDependencyInjectionBootstrapper(ADependencyInjectionBootstrapper):
     def __init__(self, container: ADependencyInjectionContainer) -> None:
         """Examples:
+
             1. New bootstrapper takes in the container
             >>> from unittest.mock import MagicMock
             >>> mock_di_container = MagicMock()
@@ -41,8 +42,10 @@ class NaiveDependencyInjectionBootstrapper(ADependencyInjectionBootstrapper):
     def bootstrap_with_configurations(self, configs: AConfig) -> ADependencyInjectionContainer:
         self._di_container.register(DependencyInjectionEntryKeys.APP_CONFIGS,
                                     configs)
-        self._di_container.register(DependencyInjectionEntryKeys.READING_ENTRY_FACTORY,
-                                    BootstrapperValueFactories.READING_ENTRY_FACTORY(self))
-        self._di_container.register(DependencyInjectionEntryKeys.PERSISTENCE_DRIVER,
-                                    BootstrapperValueFactories.PERSISTENCE_DRIVER(self._di_container))
+        self._di_container.register(
+            DependencyInjectionEntryKeys.READING_ENTRY_FACTORY,
+            BootstrapperValueFactories.READING_ENTRY_FACTORY(self))
+        self._di_container.register(
+            DependencyInjectionEntryKeys.PERSISTENCE_DRIVER,
+            BootstrapperValueFactories.PERSISTENCE_DRIVER(self._di_container))
         return self._di_container

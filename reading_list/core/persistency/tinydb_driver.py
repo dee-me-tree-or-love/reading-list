@@ -1,11 +1,13 @@
-from reading_list.core.dependencies.keys import DependencyInjectionEntryKeys
 from typing import List, Optional, cast
+
 from tinydb import TinyDB
 from tinydb.table import Document
 
+from reading_list.core.dependencies.dependency_injection import \
+    ADependencyInjectionContainer
+from reading_list.core.dependencies.keys import DependencyInjectionEntryKeys
 from reading_list.core.domain.entities import ReadingEntryStruct
-from reading_list.core.dependencies.dependency_injection import ADependencyInjectionContainer
-from reading_list.shared.config import Config, DEFAULT_CONFIGS
+from reading_list.shared.config import DEFAULT_CONFIGS, Config
 
 
 class TinyDbDriver:
@@ -60,6 +62,7 @@ class TinyDbDriver:
 
     def _throwing_save(self, reading_entry_struct: ReadingEntryStruct) -> bool:
         """Examples:
+
             >>> from unittest.mock import MagicMock, PropertyMock, patch
             >>> di = dict()
             >>> test_input_entry_struct = dict(title='foo', link='bar')
@@ -68,42 +71,54 @@ class TinyDbDriver:
             ...     mock_db.return_value = mock_db_instance
             ...     return mock_db_instance
 
-            1. TinyDbDriver::_throwing_save saves the struct of the reading entry as new Document with custom id
+            1. TinyDbDriver::_throwing_save
+                saves the reading entry struct as new Document with custom id
             >>> with patch.object(TinyDbDriver, '_db', new_callable=PropertyMock) as mock_db:
             ...     with patch.object(TinyDbDriver, '_get_document_id') as mock_get_document_id:
-            ...         with patch('reading_list.core.persistency.tinydb_driver.Document') as mock_document:
+            ...         with patch(
+            ...                 'reading_list.core.persistency.tinydb_driver.Document'
+            ...         ) as mock_document:
             ...             mock_db_instance = setup_mock_db(mock_db)
             ...             expected_document = 'some_document'
             ...             expected_document_id = 'some_document_id'
             ...             mock_get_document_id.return_value = expected_document_id
             ...             driver = TinyDbDriver(di)
             ...             _ = driver._throwing_save(test_input_entry_struct)
-            ...             mock_document.assert_called_once_with(test_input_entry_struct, expected_document_id)
+            ...             mock_document.assert_called_once_with(
+            ...                 test_input_entry_struct, expected_document_id)
 
             2. TinyDbDriver::_throwing_save saves the struct of the reading entry
             >>> with patch.object(TinyDbDriver, '_db', new_callable=PropertyMock) as mock_db:
             ...     with patch.object(TinyDbDriver, '_get_document_id') as mock_get_document_id:
-            ...         with patch('reading_list.core.persistency.tinydb_driver.Document') as mock_document:
+            ...         with patch(
+            ...                 'reading_list.core.persistency.tinydb_driver.Document'
+            ...         ) as mock_document:
             ...             mock_db_instance = setup_mock_db(mock_db)
             ...             mock_document.return_value = expected_document
             ...             driver = TinyDbDriver(di)
             ...             _ = driver._throwing_save(test_input_entry_struct)
             ...             mock_db_instance.insert.assert_called_once_with(expected_document)
 
-            3. TinyDbDriver::_throwing_save returns True if the result of insert is a valid document id
+            3. TinyDbDriver::_throwing_save
+                returns True if the result of insert is a valid document id
             >>> with patch.object(TinyDbDriver, '_db', new_callable=PropertyMock) as mock_db:
             ...     with patch.object(TinyDbDriver, '_get_document_id') as mock_get_document_id:
-            ...         with patch('reading_list.core.persistency.tinydb_driver.Document') as mock_document:
+            ...         with patch(
+            ...                 'reading_list.core.persistency.tinydb_driver.Document'
+            ...         ) as mock_document:
             ...             mock_db_instance = setup_mock_db(mock_db)
             ...             mock_db_instance.insert.return_value = "some_valid_document_id"
             ...             driver = TinyDbDriver(di)
             ...             driver._throwing_save(test_input_entry_struct)
             True
 
-            4. TinyDbDriver::_throwing_save returns False if the result of insert is not a valid document id
+            4. TinyDbDriver::_throwing_save
+                returns False if the result of insert is not a valid document id
             >>> with patch.object(TinyDbDriver, '_db', new_callable=PropertyMock) as mock_db:
             ...     with patch.object(TinyDbDriver, '_get_document_id') as mock_get_document_id:
-            ...         with patch('reading_list.core.persistency.tinydb_driver.Document') as mock_document:
+            ...         with patch(
+            ...                 'reading_list.core.persistency.tinydb_driver.Document'
+            ...         ) as mock_document:
             ...             mock_db_instance = setup_mock_db(mock_db)
             ...             mock_db_instance.insert.return_value = None
             ...             driver = TinyDbDriver(di)
@@ -118,7 +133,7 @@ class TinyDbDriver:
     def _get_document_id(self, reading_entry_struct: ReadingEntryStruct) -> int:
         """Examples:
 
-            >>> from unittest.mock import MagicMock, patch
+            >>> from unittest.mock import MagicMock
             >>> mock_factory = MagicMock()
             >>> di = dict(reading_entry_factory=mock_factory)
             >>> test_instance = TinyDbDriver(di)
@@ -152,6 +167,7 @@ class TinyDbDriver:
 
     def list(self) -> List[ReadingEntryStruct]:
         """Examples:
+
             >>> from unittest.mock import MagicMock, PropertyMock, patch
             >>> di = dict()
             >>> def setup_mock_db(mock_db):

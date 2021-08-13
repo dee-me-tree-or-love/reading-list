@@ -15,7 +15,8 @@ class BaseHandler:
 
     def handle(self, event: DataInputEvent) -> AResult:
         """Examples:
-            >>> from unittest.mock import MagicMock, patch
+
+            >>> from unittest.mock import patch
             >>> def get_base_handler():
             ...     di = dict()
             ...     return BaseHandler(di)
@@ -37,14 +38,15 @@ class BaseHandler:
         """
         try:
             return self._own_handle(event)
-        except:
+        except Exception:
             return ErrorResult()
 
 
 class AddEntryCommandHandler(BaseHandler):
     def _own_handle(self, event: DataInputEvent) -> AResult:
         """Examples:
-            >>> from unittest.mock import MagicMock, patch
+
+            >>> from unittest.mock import MagicMock
             >>> mock_factory = MagicMock()
             >>> mock_persistence = MagicMock()
             >>> di = dict(reading_entry_factory=mock_factory, persistence_driver=mock_persistence)
@@ -55,11 +57,13 @@ class AddEntryCommandHandler(BaseHandler):
             ...     mock_factory.reset_mock()
             ...     mock_persistence.reset_mock()
 
-            1. AddEntryCommandHandler::_own_handle cleans the incoming data into a reading entry struct
+            1. AddEntryCommandHandler::_own_handle
+                cleans the incoming data into a reading entry struct
             >>> reset_mocks()
             >>> _ = command_handler._own_handle(mock_event)
             >>> mock_factory.struct_to_entity.assert_called_once_with(mock_event.data)
-            >>> mock_factory.entity_to_struct.assert_called_once_with(mock_factory.struct_to_entity.return_value)
+            >>> mock_factory.entity_to_struct.assert_called_once_with(
+            ...     mock_factory.struct_to_entity.return_value)
 
             2. AddEntryCommandHandler::_own_handle saves the clean struct
             >>> reset_mocks()
@@ -97,7 +101,8 @@ class AddEntryCommandHandler(BaseHandler):
 class ListEntriesCommandHandler(BaseHandler):
     def _own_handle(self, _: DataInputEvent) -> AResult:
         """Examples:
-            >>> from unittest.mock import MagicMock, patch
+
+            >>> from unittest.mock import MagicMock
             >>> mock_factory = MagicMock()
             >>> mock_persistence = MagicMock()
             >>> di = dict(reading_entry_factory=mock_factory, persistence_driver=mock_persistence)
@@ -107,12 +112,14 @@ class ListEntriesCommandHandler(BaseHandler):
             ...     mock_factory.reset_mock()
             ...     mock_persistence.reset_mock()
 
-            1. ListEntriesCommandHandler::_own_handle retrieves a list of structs from the persistency driver
+            1. ListEntriesCommandHandler::_own_handle
+                retrieves a list of structs from the persistency driver
             >>> reset_mocks()
             >>> _ = command_handler._own_handle(mock_event)
             >>> mock_persistence.list.assert_called_once_with()
 
-            2. ListEntriesCommandHandler::_own_handle returns a list of entries as data of the result
+            2. ListEntriesCommandHandler::_own_handle
+                returns a list of entries as data of the result
             >>> reset_mocks()
             >>> expected_reading_entry_structs = ['a', 'b', 'c']
             >>> mock_persistence.list.return_value = expected_reading_entry_structs

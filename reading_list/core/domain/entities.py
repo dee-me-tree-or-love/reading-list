@@ -1,5 +1,5 @@
-from typing import TypedDict
 from dataclasses import dataclass
+from typing import TypedDict
 
 
 @dataclass
@@ -17,7 +17,8 @@ class ReadingEntryFactory:
 
     @staticmethod
     def make_new_entry(title: str, link: str = "") -> ReadingEntry:
-        """Examples
+        """Examples:
+
             Entry with title and link
             >>> result = ReadingEntryFactory.make_new_entry('foo', 'bar')
             >>> f't: {result.title}, l: {result.link}'
@@ -40,6 +41,7 @@ class ReadingEntryFactory:
     @staticmethod
     def entity_to_struct(entry: ReadingEntry) -> ReadingEntryStruct:
         """Examples:
+
             >>> reading_entry = ReadingEntry('foo', 'bar')
             >>> ReadingEntryFactory.entity_to_struct(reading_entry)
             {'title': 'foo', 'link': 'bar'}
@@ -49,6 +51,7 @@ class ReadingEntryFactory:
     @classmethod
     def struct_to_entity(cls, entry_struct: ReadingEntryStruct) -> ReadingEntry:
         """Examples:
+
             >>> reading_entry_struct = {'title': 'foo', 'link': 'bar'}
             >>> result = ReadingEntryFactory.struct_to_entity(reading_entry_struct)
             >>> f't: {result.title}, l: {result.link}'
