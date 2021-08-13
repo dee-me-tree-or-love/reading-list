@@ -5,13 +5,9 @@ Manage your links to read using this CLI tool!
 
 > Disclaimer: it's a work in progress, but do stay tuned ;)
 
-## Usage
+## Getting started
 
-> Disclaimer: a more convenient way will be provided in the future :ok_hand:
-
-### Getting started
-
-For now the only way is to clone the repository. 
+For the time being the only way is to clone the repository. 
 
 ### Basic usage
 
